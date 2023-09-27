@@ -1,0 +1,19 @@
+require("@babel/register");
+
+const path = require("path");
+const { NodeEnv } = require("./src/constants");
+
+let dbFileSource = "src";
+if (process.env.NODE_ENV == NodeEnv.prod) {
+  dbFileSource = "dist";
+}
+
+module.exports = {
+  config: path.resolve(dbFileSource, "config", "config.js"),
+
+  "models-path": path.resolve(dbFileSource, "models"),
+
+  "seeders-path": path.resolve(dbFileSource, "seeders"),
+
+  "migrations-path": path.resolve(dbFileSource, "migrations"),
+};

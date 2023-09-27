@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqlcontainer
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - $HOME/database:/var/lib/mysql
+      - ./mysql/agel.sql:/docker-entrypoint-initdb.d/0_agel.sql
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: agel
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: letmein
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: prod
+      SERVICE_NAME: mysqldb
+    networks:
+      - internalnet
+
+  agelbackend:
+    build:
+      context: .
+    depends_on:
+      - mysqldb
+    ports:
+      - 3125:3125
+
+    env_file: ./.env
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=admin
+      - DB_PASSWORD=letmein
+      - DB_NAME=agel
+      - DB_PORT=3306
+    stdin_open: true
+    tty: true
+
+networks:
+  internalnet:
+    driver: bridge

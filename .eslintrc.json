@@ -1,0 +1,22 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "testPathIgnorePatterns": ["/node_modules/", "**/test/*.js"],
+  "rules": {
+    "indent": ["error", 2],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "req|res|next|val|reject|options" }
+    ],
+    "no-undef": ["error"]
+  }
+}
