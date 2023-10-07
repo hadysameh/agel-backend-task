@@ -18,7 +18,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.NODE_LOCAL_PORT}`,
+        url: `http://localhost:${process.env.NODE_PORT}`,
       },
     ],
   },

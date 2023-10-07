@@ -7,7 +7,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-const port = process.env.NODE_LOCAL_PORT || 3125;
+const port = process.env.NODE_PORT || 3125;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
