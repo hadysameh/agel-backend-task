@@ -22,6 +22,7 @@ const getAccessToken = (id) => {
 const getRefreshAndAccessTokens = (id) => {
   const accessToken = getAccessToken(id);
   const refreshToken = jwt.sign({ id }, process.env.REFRESH_JWT_TOKEN_SECRET, {
+    //NOTE: "d" for days
     expiresIn: `${process.env.REFRESH_JWT_TOKEN_EXPIRES_IN}d`,
   });
   const refreshTokenCookieOptions = {
@@ -31,7 +32,7 @@ const getRefreshAndAccessTokens = (id) => {
     ),
     httpOnly: true,
   };
-  if (process.env.NODE_ENV === NodeEnv.prod)
+  if (process.env.NODE_ENV == NodeEnv.prod)
     refreshTokenCookieOptions.secure = true;
 
   return { accessToken, refreshToken, refreshTokenCookieOptions };

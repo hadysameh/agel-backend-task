@@ -7,8 +7,9 @@ import cookieparser from "cookie-parser";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import { NodeEnv } from "./constants/index.js";
 
-const options = {
+const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
@@ -25,16 +26,19 @@ const options = {
   apis: ["./src/routes/*.js", "./dist/routes/*.js"],
 };
 
-const specs = swaggerJsDoc(options);
+const swaggerSpecs = swaggerJsDoc(swaggerOptions);
 
 const app = express();
 
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
-app.use((req, res, next) => {
-  console.log(req.url);
-  next();
-});
+if (process.env.NODE_ENV == NodeEnv.prod) {
+  app.use((req, res, next) => {
+    console.log(req.url);
+    next();
+  });
+}
+
 app.use(cors());
 
 app.use(express.json({ limit: "10kb" }));
